@@ -4,7 +4,6 @@
 #include <vector>
 using namespace std;
 vector<vector<float>> processed_kernel(vector<vector<float>> kernel){
-         cout << "yeh kiya h" << endl;
 }
 vector<vector<float>> matrix_mult(vector<vector<float>> input,vector<vector<<float> kernel){
 
