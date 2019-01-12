@@ -31,7 +31,7 @@ vector<vector<float>> relu_activation(vector<vector<float>> input){
 vector<vector<float>> tanh_activation(vector<vector<float>> input){
        for(int i=0;i<input.size();i++){
      	for(int j=0;j<input[i].size();i++){
-     		input[i][j]= tanh(input[i][j]);
+     		input[i][j]=   tanh(input[i][j]);
      	}
      }
 }
