@@ -3,7 +3,11 @@
 #include <cmath>
 #include <vector>
 using namespace std;
+vector<vector<float>> processed_input(vector<vector<float>> input,int kernel_size){
+
+}
 vector<vector<float>> processed_kernel(vector<vector<float>> kernel){
+
     vector<vector<float>> output;
     for(int i=0;i<kernal.size();i++){
         for(int j=0;j<kernal[i].size();i++){
@@ -11,6 +15,9 @@ vector<vector<float>> processed_kernel(vector<vector<float>> kernel){
         }
      }
      return output;
+
+    
+
 }
 vector<vector<float>> matrix_mult(vector<vector<float>> input,vector<vector<<float> kernel){
     vector<vector<float>> output;
@@ -25,32 +32,60 @@ vector<vector<float>> matrix_mult(vector<vector<float>> input,vector<vector<<flo
         }
     }
 }
-vector<vector<float>> convolution_withoutpadding(vector<vector<float>> input,vector<vector<float>> kernel){
+vector<vector<float>> inverse_input(vector<vector<float>> input){
 
+}
+vector<vector<float>> convolution_withoutpadding(vector<vector<float>> input,vector<vector<float>> kernel){
+       
 }
 vector<vector<float>> convolution_withoutpadding_matrixmult(vector<vector<float>> input,vector<vector<float>> kernel){
 
+      return inverse_input(matrix_mult(processed_input(input,kernel.size()),processed_kernel(kernel)));
 }
-vector<vector<float>> convolution_withpadding(float padsize,vector<vector<float>> input,vector<vector<float>> kernel){
 
+vector<vector<float>> padding(float padsize,vector<vector<float>> input){
+	vector<vector<float> output;
+	for(int i=0;i<input.size()+2*padsize){
+		  vector<float> v;
+		  output.push_back(v);
+        for(int j=0;j<input.size()+2*padsize){
+        	if(i<padsize||i>=input.size()+padsize||j<padsize||j>=input.size()+padsize)
+             output.push_back(0.0);
+            else
+             output.push_back(input[i-padsize][j-padsize]); 	
+        }
+	}
 }
+
+vector<vector<float>> convolution_withpadding(float padsize,vector<vector<float>> input,vector<vector<float>> kernel){
+      
+      return convolution_withoutpadding(padding(padsize,input),kernel);
+}
+
 vector<vector<float>> convolution_withpadding_matrixmult(float padsize,vector<vector<float>> input,vector<vector<float>> kernel){
 
+      return convolution_withoutpadding_matrixmult(padding(padsize,input),kernel);
 }
+
 vector<vector<float>> relu_activation(vector<vector<float>> input){
-     for(int i=0;i<input.size();i++){
+    for(int i=0;i<input.size();i++){
      	for(int j=0;j<input[i].size();i++){
      		input[i][j]=max(0,input[i][j]);
      	}
      }
+    return input;
 }
+
 vector<vector<float>> tanh_activation(vector<vector<float>> input){
-       for(int i=0;i<input.size();i++){
+    for(int i=0;i<input.size();i++){
      	for(int j=0;j<input[i].size();i++){
-     		input[i][j]=   tanh(input[i][j]);
+     		input[i][j]=tanh(input[i][j]);
      	}
      }
+   return input;   
 }
+
+// acts as a hidden layer in neural network by reducing the amount of data and taking relevant data by taking max of 2*2 sliding window
 vector<vector<float>> max_pooling(vector<vector<float>> input){
     if(input.size()%2==1){
     	vector<float> extra;
@@ -63,11 +98,38 @@ vector<vector<float>> max_pooling(vector<vector<float>> input){
         }
     }
     vector<vector<float>> output;
-
+    for(int i=0;i<input.size()/2;i++){
+    	vector<float> v;
+    	output.push_back(v);
+    	for(int j=0;j<input.size()/2;i++){
+    		output[i].push_back(max(input[2*i][2*j],max(input[2*i+1][2*j],max(input[2*i+1][2*j+1],input[2*i][2*j+1]))));
+    	}
+    }
+    return output;
 }
+// acts as a hidden layer in neural network by reducing the amount of data and taking relevant data by taking average of 2*2 sliding window
 vector<vector<float>> average_pooling(vector<vector<float>> input){
-
+    if(input.size()%2==1){
+    	vector<float> extra;
+    for(int i=0;i<input.size();i++){
+    		extra.push_back(0);
+    	}
+        input.push_back(extra);
+    for(int i=0;i<input.size();i++){
+        	input[i].push_back(0);
+        }
+    }
+    vector<vector<float>> output;
+    for(int i=0;i<input.size()/2;i++){
+    	vector<float> v;
+    	output.push_back(v);
+    for(int j=0;j<input.size()/2;j++){
+    		output[i].push_back((input[2*i][2*j]+input[2*i+1][2*j]+input[2*i+1][2*j+1]+input[2*i][2*j+1])/4);
+    	}
+    }
+  return output;  
 }
+// maps the vector to [0,1] hence giving a measure of probability
 vector<float> softmax(vector<float> input){
 	float sum=0;
 	vector<float> ouptut;
@@ -75,10 +137,11 @@ vector<float> softmax(vector<float> input){
      		sum+=exp(input[j]);
      	}
     for(int j=0;j<input.size();i++){
-     		output.pushback(exp(input[j])/sum);
+     		output.push_back(exp(input[j])/sum);
      	}
     return output;
 }
+// maps the vector to [0,1] hence giving a measure of probability
 vector<float> sigmoid(vector<float> input){
 	vector<float> output;
 	for(int j=0;j<input[i].size();i++){
@@ -86,6 +149,7 @@ vector<float> sigmoid(vector<float> input){
      	}
     return output; 	
 }
+
 int main(){
 
 
