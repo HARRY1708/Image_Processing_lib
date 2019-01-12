@@ -4,13 +4,33 @@
 #include <vector>
 using namespace std;
 vector<vector<float>> processed_input(vector<vector<float>> input,int kernel_size){
-
+  dernfjernglktrnglt4jg.
 }
 vector<vector<float>> processed_kernel(vector<vector<float>> kernel){
+
+    vector<vector<float>> output;
+    for(int i=0;i<kernal.size();i++){
+        for(int j=0;j<kernal[i].size();i++){
+            output[i*3+j].push_back(input[i][j]);
+        }
+     }
+     return output;
+
     
+
 }
 vector<vector<float>> matrix_mult(vector<vector<float>> input,vector<vector<<float> kernel){
-
+    vector<vector<float>> output;
+    float sum=0;
+    for(int i=0;i<input.size();i++){
+        for(int j=0;j<kernal[i].size();j++){
+            sum=0;
+            for(int k=0;k<kernal.size();k++){
+                sum=sum+input[i][k]*kernal[k][j]
+            }
+            output[i].pushback(sum);
+        }
+    }
 }
 vector<vector<float>> inverse_input(vector<vector<float>> input){
 
