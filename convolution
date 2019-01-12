@@ -16,7 +16,7 @@ vector<vector<float>> inverse_input(vector<vector<float>> input){
 
 }
 vector<vector<float>> convolution_withoutpadding(vector<vector<float>> input,vector<vector<float>> kernel){
-       
+ return       
 }
 vector<vector<float>> convolution_withoutpadding_matrixmult(vector<vector<float>> input,vector<vector<float>> kernel){
 
