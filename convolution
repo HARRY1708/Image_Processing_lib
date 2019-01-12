@@ -1,0 +1,76 @@
+#include <iostream>
+#include <climits>
+#include <cmath>
+#include <vector>
+using namespace std;
+vector<vector<float>> processed_kernel(vector<vector<float>> kernel){
+         
+}
+vector<vector<float>> matrix_mult(vector<vector<float>> input,vector<vector<<float> kernel){
+
+}
+vector<vector<float>> convolution_withoutpadding(vector<vector<float>> input,vector<vector<float>> kernel){
+
+}
+vector<vector<float>> convolution_withoutpadding_matrixmult(vector<vector<float>> input,vector<vector<float>> kernel){
+
+}
+vector<vector<float>> convolution_withpadding(float padsize,vector<vector<float>> input,vector<vector<float>> kernel){
+
+}
+vector<vector<float>> convolution_withpadding_matrixmult(float padsize,vector<vector<float>> input,vector<vector<float>> kernel){
+
+}
+vector<vector<float>> relu_activation(vector<vector<float>> input){
+     for(int i=0;i<input.size();i++){
+     	for(int j=0;j<input[i].size();i++){
+     		input[i][j]=max(0,input[i][j]);
+     	}
+     }
+}
+vector<vector<float>> tanh_activation(vector<vector<float>> input){
+       for(int i=0;i<input.size();i++){
+     	for(int j=0;j<input[i].size();i++){
+     		input[i][j]=tanh(input[i][j]);
+     	}
+     }
+}
+vector<vector<float>> max_pooling(vector<vector<float>> input){
+    if(input.size()%2==1){
+    	vector<float> extra;
+    	for(int i=0;i<input.size();i++){
+    		extra.push_back(0);
+    	}
+        input.push_back(extra);
+        for(int i=0;i<input.size();i++){
+        	input[i].push_back(0);
+        }
+    }
+    vector<vector<float>> output;
+    
+}
+vector<vector<float>> average_pooling(vector<vector<float>> input){
+
+}
+vector<float> softmax(vector<float> input){
+	float sum=0;
+	vector<float> ouptut;
+    for(int j=0;j<input.size();i++){
+     		sum+=exp(input[j]);
+     	}
+    for(int j=0;j<input.size();i++){
+     		output.pushback(exp(input[j])/sum);
+     	}
+    return output;
+}
+vector<float> sigmoid(vector<float> input){
+	vector<float> output;
+	for(int j=0;j<input[i].size();i++){
+     		output.push_back(1/(1+exp(-1*input[i])));
+     	}
+    return output; 	
+}
+int main(){
+
+
+}
