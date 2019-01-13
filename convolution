@@ -4,12 +4,30 @@
 #include <vector>
 using namespace std;
 vector<vector<float>> processed_input(vector<vector<float>> input,int kernel_size){
-  dernfjernglktrnglt4jg.
-}
+    vector<vector<float>> output
+    for(int i=0;i<kernal_size;i++){
+        for(int j=1;j<=(input.size()-kernal_size);j++){
+            for(int k=1;k<=(input.size()-kernal_size);k++){
+                if(i==0){
+                    vector<float> v;
+                    output.push_back(v);
+                }
+                for(int x=0;x<kernal_size;x++){
+                    output[j*k-1].push_back(input[i+j-1][k+x-1]);
+                }
+            }
+
+        }
+    }
+    return output;
+
+} 
 vector<vector<float>> processed_kernel(vector<vector<float>> kernel){
 
     vector<vector<float>> output;
     for(int i=0;i<kernal.size();i++){
+        vector<float> v;
+        output.push_back(v);
         for(int j=0;j<kernal[i].size();i++){
             output[i*3+j].push_back(input[i][j]);
         }
@@ -25,18 +43,30 @@ vector<vector<float>> matrix_mult(vector<vector<float>> input,vector<vector<<flo
     for(int i=0;i<input.size();i++){
         for(int j=0;j<kernal[i].size();j++){
             sum=0;
+            vector<float> v;
+            output.push_back(v);
             for(int k=0;k<kernal.size();k++){
                 sum=sum+input[i][k]*kernal[k][j]
             }
-            output[i].pushback(sum);
+            output[i].push_back(sum);
         }
     }
 }
 vector<vector<float>> inverse_input(vector<vector<float>> input){
+    vector<vector<float>> output;
+    int i= (int)sqrt(input.size());
 
+    for(int k=1;k<=i;k++){
+        vector<float> v;
+        output.push_back(v);
+        for(int j=1;j<=i;j++){
+            output[k-1].push_back(input[k*j-1][0]);
+        }
+    }
+    return output;
 }
 vector<vector<float>> convolution_withoutpadding(vector<vector<float>> input,vector<vector<float>> kernel){
- return       
+      return       
 }
 vector<vector<float>> convolution_withoutpadding_matrixmult(vector<vector<float>> input,vector<vector<float>> kernel){
 
@@ -45,10 +75,10 @@ vector<vector<float>> convolution_withoutpadding_matrixmult(vector<vector<float>
 
 vector<vector<float>> padding(float padsize,vector<vector<float>> input){
 	vector<vector<float> output;
-	for(int i=0;i<input.size()+2*padsize){
+	for(int i=0;i<input.size()+2*padsize;i++){
 		  vector<float> v;
 		  output.push_back(v);
-        for(int j=0;j<input.size()+2*padsize){
+        for(int j=0;j<input.size()+2*padsize;j++){
         	if(i<padsize||i>=input.size()+padsize||j<padsize||j>=input.size()+padsize)
              output.push_back(0.0);
             else
@@ -101,7 +131,7 @@ vector<vector<float>> max_pooling(vector<vector<float>> input){
     for(int i=0;i<input.size()/2;i++){
     	vector<float> v;
     	output.push_back(v);
-    	for(int j=0;j<input.size()/2;i++){
+    	for(int j=0;j<input.size()/2;j++){
     		output[i].push_back(max(input[2*i][2*j],max(input[2*i+1][2*j],max(input[2*i+1][2*j+1],input[2*i][2*j+1]))));
     	}
     }
