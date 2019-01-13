@@ -2,42 +2,62 @@
 #include <climits>
 #include <cmath>
 #include <vector>
+#include <cstring>
 using namespace std;
 vector<vector<float>> processed_input(vector<vector<float>> input,int kernel_size){
-  dernfjernglktrnglt4jg.
+     
 }
+
 vector<vector<float>> processed_kernel(vector<vector<float>> kernel){
 
     vector<vector<float>> output;
-    for(int i=0;i<kernal.size();i++){
-        for(int j=0;j<kernal[i].size();i++){
+    for(int i=0;i<kernel.size();i++){
+        for(int j=0;j<kernel[i].size();i++){
             output[i*3+j].push_back(input[i][j]);
         }
      }
-     return output;
-
-    
-
+    return output;
 }
+
 vector<vector<float>> matrix_mult(vector<vector<float>> input,vector<vector<<float> kernel){
     vector<vector<float>> output;
     float sum=0;
     for(int i=0;i<input.size();i++){
-        for(int j=0;j<kernal[i].size();j++){
+    	vector<float> v;
+		output.push_back(v);
+        for(int j=0;j<kernel[0].size();j++){
             sum=0;
-            for(int k=0;k<kernal.size();k++){
-                sum=sum+input[i][k]*kernal[k][j]
+            for(int k=0;k<kernel.size();k++){
+                sum+=input[i][k]*kernel[k][j]
             }
-            output[i].pushback(sum);
+            output[i].push_back(sum);
         }
     }
+    return output;
 }
-vector<vector<float>> inverse_input(vector<vector<float>> input){
 
+vector<vector<float>> inverse_input(vector<vector<float>> input){
+    
 }
+
 vector<vector<float>> convolution_withoutpadding(vector<vector<float>> input,vector<vector<float>> kernel){
- return       
+             vector<vector<float>> output;
+             for(int i=0;i<input.size()-kernel.size()+1;i++){
+             	vector<float> v;
+		        output.push_back(v);
+             	for(int j=0;j<input.size()-kernel.size()+1;j++){
+             		float sum=0;
+             		for(int u=0;u<kernel.size();u++){
+             	       for(int v=0;v<kernel.size();v++){
+                            sum+=(input[i+u][j+v]*kernel[u][v]);
+             	       }   
+             		}
+             	}
+             	  output[i].push_back(sum);	
+             }
+  return output;      
 }
+
 vector<vector<float>> convolution_withoutpadding_matrixmult(vector<vector<float>> input,vector<vector<float>> kernel){
 
       return inverse_input(matrix_mult(processed_input(input,kernel.size()),processed_kernel(kernel)));
@@ -107,6 +127,7 @@ vector<vector<float>> max_pooling(vector<vector<float>> input){
     }
     return output;
 }
+
 // acts as a hidden layer in neural network by reducing the amount of data and taking relevant data by taking average of 2*2 sliding window
 vector<vector<float>> average_pooling(vector<vector<float>> input){
     if(input.size()%2==1){
@@ -151,6 +172,11 @@ vector<float> sigmoid(vector<float> input){
 }
 
 int main(){
+    string s;
+     do{
+          cin<<s;
 
-
+     }
+     while(s!="\0");
+    
 }
