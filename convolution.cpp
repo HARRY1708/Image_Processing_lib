@@ -235,17 +235,17 @@ void take_input(vector<vector<float> > input,string fil,string sizestr){
 }
 void split(vector<string> result,string s){
 	int i=0;
-  String temp = "";
+  string temp = "";
 	while(i<s.size()){
-        if(s[i]!=" "){
+        if(s[i]!=32){
           temp=temp+s[i];
-          i++;
         }
         else{
+          if(temp!="")	
           result.push_back(temp);
           temp="";
-          i++;
-        }		
+        }	
+        i++;	
 	}
 }
 int main(){
@@ -253,7 +253,7 @@ int main(){
      do{
           getline(cin,s);
           vector<string> result;
-          result = strtok(s," ");
+             split(result,s);
           if(result[0]=="convolution"){
               
               vector<vector<float> > input;
@@ -290,10 +290,10 @@ int main(){
             ifstream file;
 	        file.open(result[1]);
 	        string x;
-	        file> >x;
+	        file>>x;
             while (x!="\0"){
             	input.push_back(stoi(x));
-            	file> >x;
+            	file>>x;
             }
             disp(softmax(input));
           }
