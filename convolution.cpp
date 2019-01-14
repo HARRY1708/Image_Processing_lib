@@ -1,11 +1,10 @@
-#include <iostream>
-#include <climits>
-#include <algorithm>
-#include <cmath>
-#include <vector>
-#include <cstring>
-#include <bits/stdc++.h> 
-//#include <boost/algorithm/string.hpp> 
+// #include <iostream>
+// #include <climits>
+// #include <algorithm>
+// #include <vector>
+// #include <cstring>
+// #include <fstream>
+#include <bits/stdc++.h>
 using namespace std;
 vector<vector<float> > processed_input(vector<vector<float> > input,int kernel_size){
 
@@ -119,22 +118,30 @@ vector<vector<float> > convolution_withpadding_matrixmult(int padsize,vector<vec
       return convolution_withoutpadding_matrixmult(padding(padsize,input),kernel);
 }
 
-vector<vector<float> > relu_activation(vector<vector<float> > input){
+vector<vector<float> > relu_activation(vector<vector<float>> input){
+	vector<vector<float>> output;
+              cout<<12345<<endl;
     for(int i=0;i<input.size();i++){
-     	for(int j=0;j<input[i].size();i++){
-     		input[i][j]=max(input[i][j],(float)0);
+    	vector<float> v;
+    	output.push_back(v);
+    	 cout<<12345<<endl;
+     	for(int j=0;j<input[i].size();j++){
+     		output[i].push_back(max(input[i][j],(float)0));
      	}
      }
-    return input;
+    return output;
 }
 
-vector<vector<float> > tanh_activation(vector<vector<float> > input){
+vector<vector<float>> tanh_activation(vector<vector<float> > input){
+    vector<vector<float>> output;
     for(int i=0;i<input.size();i++){
-     	for(int j=0;j<input[i].size();i++){
-     		input[i][j]=tanh(input[i][j]);
+    	vector<float> v;
+    	output.push_back(v);
+     	for(int j=0;j<input[i].size();j++){
+     		output[i].push_back(tanh(input[i][j]));
      	}
      }
-   return input;   
+    return output;
 }
 
 // acts as a hidden layer in neural network by reducing the amount of data and taking relevant data by taking max of 2*2 sliding window
@@ -205,20 +212,17 @@ vector<float> sigmoid(vector<float> input){
 void display(vector<vector<float> > input){
 	for(int i=0;i<input.size();i++){
         for(int j=0;j<input[i].size();j++){
-            
-            cout<<input[j][i]<<" ";
+           cout<<input[j][i]<<endl;
         }
-        cout<<endl;
     }
 }
 void disp(vector<float> input){
   for(int i=0;i<input.size();i++){        
-            cout<<input[i]<<" ";
+           cout<<input[i]<<endl;
      }
-     cout << endl;
 }
-void take_input(vector<vector<float> > input,string fil,string sizestr){
-	     ifstream file;
+void take_input(vector<vector<float> > &input,string fil,string sizestr){
+	     fstream file;
 	     file.open(fil);
 	     int size = stoi(sizestr);
 	     float x;
@@ -232,63 +236,44 @@ void take_input(vector<vector<float> > input,string fil,string sizestr){
 	            input[j].push_back(x);
 	      	}
 	    }
+	    file.close();
 }
-void split(vector<string> result,string s){
-	int i=0;
-  string temp = "";
-	while(i<s.size()){
-        if(s[i]!=32){
-          temp=temp+s[i];
-        }
-        else{
-          if(temp!="")	
-          result.push_back(temp);
-          temp="";
-        }	
-        i++;	
-	}
-}
-int main(){
-    string s;
-     do{
-          getline(cin,s);
-          vector<string> result;
-             split(result,s);
-          if(result[0]=="convolution"){
-              
+int main(int argc,char* argv[]){
+            cout<<argv[1]<<" "<<argv[2]<<" "<<argv[3]<<endl;
+          if(!strcmp(argv[1],"convolution")){
               vector<vector<float> > input;
-              take_input(input,result[1],result[2]);
+              take_input(input,argv[2],argv[3]);
               vector<vector<float> > kernel;
-              take_input(kernel,result[3],result[4]);
+              take_input(kernel,argv[4],argv[5]);
               display(convolution_withoutpadding(input,kernel));
           }
-          else if(result[0]=="convolution_withpadding"){
+          else if(!strcmp(argv[1],"convolution_withpadding")){
               vector<vector<float> > input;
-              int padsize = stoi(result[1]);
-              take_input(input,result[2],result[3]);
+              int padsize = stoi(argv[2]);
+              take_input(input,argv[3],argv[4]);
               vector<vector<float> > kernel;
-              take_input(kernel,result[4],result[5]);
+              take_input(kernel,argv[5],argv[6]);
               display(convolution_withpadding(padsize,input,kernel));
           }
-          else if(result[0]=="convolution_matrixmult"){
+          else if(!strcmp(argv[1],"convolution_matrixmult")){
               vector<vector<float> > input;
-              take_input(input,result[1],result[2]);
+              take_input(input,argv[2],argv[3]);
               vector<vector<float> > kernel;
-              take_input(kernel,result[3],result[4]);
+              take_input(kernel,argv[4],argv[5]);
               display(convolution_withoutpadding_matrixmult(input,kernel));
           }
-          else if(result[0]=="convolution_withpadding_matrixmult"){
+          else if(!strcmp(argv[1],"convolution_withpadding_matrixmult")){
               vector<vector<float> > input;
-              int padsize = stoi(result[1]);
-              take_input(input,result[2],result[3]);
+              int padsize = stoi(argv[2]);
+              take_input(input,argv[3],argv[4]);
               vector<vector<float> > kernel;
-              take_input(kernel,result[4],result[5]);
+              take_input(kernel,argv[5],argv[6]);
               display(convolution_withpadding_matrixmult(padsize,input,kernel));
           }
-          else if(result[0]=="softmax"){
+          else if(!strcmp(argv[1],"softmax")){
             vector<float> input;
             ifstream file;
-	        file.open(result[1]);
+	        file.open(argv[2]);
 	        string x;
 	        file>>x;
             while (x!="\0"){
@@ -297,10 +282,10 @@ int main(){
             }
             disp(softmax(input));
           }
-          else if(result[0]=="sigmoid"){
+          else if(!strcmp(argv[1],"sigmoid")){
           	 vector<float> input;
             ifstream file;
-	        file.open(result[1]);
+	        file.open(argv[2]);
 	        string x;
 	        file >> x;
             while (x!="\0"){
@@ -309,27 +294,27 @@ int main(){
             }
            disp(sigmoid(input));
           }
-          else if(result[0]=="max_pooling"){
+          else if(!strcmp(argv[1],"max_pooling")){
             vector<vector<float> > input;
-            take_input(input,result[1],result[2]);
+            take_input(input,argv[2],argv[3]);
             display(max_pooling(input));
           }
-          else if(result[0]=="average_pooling"){
+          else if(!strcmp(argv[1],"average_pooling")){
           	vector<vector<float> > input;
-            take_input(input,result[1],result[2]);
+            take_input(input,argv[2],argv[3]);
             display(average_pooling(input));
           }
-          else if(result[0]=="relu_activation"){
+          else if(!strcmp(argv[1],"relu_activation")){
               vector<vector<float> > inp;
-              take_input(inp,result[1],result[2]);
+              cout<<argv[1]<<" "<<argv[2]<<" "<<argv[3]<<endl;
+              take_input(inp,argv[2],argv[3]);
+              cout<<argv[1]<<" "<<argv[2]<<" "<<argv[3]<<endl;
               display(relu_activation(inp));
           }
-          else if(result[0]=="tanh_activation"){
+          else if(strcmp(argv[1],"tanh_activation")){
               vector<vector<float> > inp;
-              take_input(inp,result[1],result[2]);
+              take_input(inp,argv[2],argv[3]);
               display(tanh_activation(inp));
           }
-     }
-     while(s!="\0");
-    
+    return 0;
 }
