@@ -7,9 +7,9 @@
 #include <bits/stdc++.h> 
 //#include <boost/algorithm/string.hpp> 
 using namespace std;
-vector<vector<float>> processed_input(vector<vector<float>> input,int kernel_size){
+vector<vector<float> > processed_input(vector<vector<float> > input,int kernel_size){
 
-    vector<vector<float>> output;
+    vector<vector<float> > output;
     for(int i=0;i<kernel_size;i++){
         for(int j=1;j<=(input.size()-kernel_size);j++){
             for(int k=1;k<=(input.size()-kernel_size);k++){
@@ -26,9 +26,9 @@ vector<vector<float>> processed_input(vector<vector<float>> input,int kernel_siz
     return output;
 
 } 
-vector<vector<float>> processed_kernel(vector<vector<float>> kernel){
+vector<vector<float> > processed_kernel(vector<vector<float> > kernel){
 
-    vector<vector<float>> output;
+    vector<vector<float> > output;
     for(int i=0;i<kernel.size();i++){
         vector<float> v;
         output.push_back(v);
@@ -39,8 +39,8 @@ vector<vector<float>> processed_kernel(vector<vector<float>> kernel){
     return output;
 }
 
-vector<vector<float>> matrix_mult(vector<vector<float>> input,vector<vector<float>> kernel){
-    vector<vector<float>> output;
+vector<vector<float> > matrix_mult(vector<vector<float> > input,vector<vector<float> > kernel){
+    vector<vector<float> > output;
     float sum=0;
     for(int i=0;i<input.size();i++){
     	vector<float> v;
@@ -56,8 +56,8 @@ vector<vector<float>> matrix_mult(vector<vector<float>> input,vector<vector<floa
     return output;
 }
     
-vector<vector<float>> inverse_input(vector<vector<float>> input){
-    vector<vector<float>> output;
+vector<vector<float> > inverse_input(vector<vector<float> > input){
+    vector<vector<float> > output;
     int i= (int)sqrt(input.size());
 
     for(int k=1;k<=i;k++){
@@ -70,8 +70,8 @@ vector<vector<float>> inverse_input(vector<vector<float>> input){
     return output;
 }
 
-vector<vector<float>> convolution_withoutpadding(vector<vector<float>> input,vector<vector<float>> kernel){
-             vector<vector<float>> output;
+vector<vector<float> > convolution_withoutpadding(vector<vector<float> > input,vector<vector<float> > kernel){
+             vector<vector<float> > output;
              for(int i=0;i<input.size()-kernel.size()+1;i++){
              	vector<float> v;
 		        output.push_back(v);
@@ -88,14 +88,14 @@ vector<vector<float>> convolution_withoutpadding(vector<vector<float>> input,vec
   return output;
 }
 
-vector<vector<float>> convolution_withoutpadding_matrixmult(vector<vector<float>> input,vector<vector<float>> kernel){
+vector<vector<float> > convolution_withoutpadding_matrixmult(vector<vector<float> > input,vector<vector<float> > kernel){
 
       return inverse_input(matrix_mult(processed_input(input,kernel.size()),processed_kernel(kernel)));
 }
 
-vector<vector<float>> padding(int padsize,vector<vector<float>> input){
+vector<vector<float> > padding(int padsize,vector<vector<float> > input){
 
-	vector<vector<float>> output;
+	vector<vector<float> > output;
 	for(int i=0;i<input.size()+2*padsize;i++){
 		  vector<float> v;
 		  output.push_back(v);
@@ -109,17 +109,17 @@ vector<vector<float>> padding(int padsize,vector<vector<float>> input){
 	return output;
 }
 
-vector<vector<float>> convolution_withpadding(int padsize,vector<vector<float>> input,vector<vector<float>> kernel){
+vector<vector<float> > convolution_withpadding(int padsize,vector<vector<float> > input,vector<vector<float> > kernel){
       
       return convolution_withoutpadding(padding(padsize,input),kernel);
 }
 
-vector<vector<float>> convolution_withpadding_matrixmult(int padsize,vector<vector<float>> input,vector<vector<float>> kernel){
+vector<vector<float> > convolution_withpadding_matrixmult(int padsize,vector<vector<float> > input,vector<vector<float> > kernel){
 
       return convolution_withoutpadding_matrixmult(padding(padsize,input),kernel);
 }
 
-vector<vector<float>> relu_activation(vector<vector<float>> input){
+vector<vector<float> > relu_activation(vector<vector<float> > input){
     for(int i=0;i<input.size();i++){
      	for(int j=0;j<input[i].size();i++){
      		input[i][j]=max(input[i][j],(float)0);
@@ -128,7 +128,7 @@ vector<vector<float>> relu_activation(vector<vector<float>> input){
     return input;
 }
 
-vector<vector<float>> tanh_activation(vector<vector<float>> input){
+vector<vector<float> > tanh_activation(vector<vector<float> > input){
     for(int i=0;i<input.size();i++){
      	for(int j=0;j<input[i].size();i++){
      		input[i][j]=tanh(input[i][j]);
@@ -138,7 +138,7 @@ vector<vector<float>> tanh_activation(vector<vector<float>> input){
 }
 
 // acts as a hidden layer in neural network by reducing the amount of data and taking relevant data by taking max of 2*2 sliding window
-vector<vector<float>> max_pooling(vector<vector<float>> input){
+vector<vector<float> > max_pooling(vector<vector<float> > input){
     if(input.size()%2==1){
     	vector<float> extra;
     	for(int i=0;i<input.size();i++){
@@ -149,7 +149,7 @@ vector<vector<float>> max_pooling(vector<vector<float>> input){
         	input[i].push_back(0);
         }
     }
-    vector<vector<float>> output;
+    vector<vector<float> > output;
     for(int i=0;i<input.size()/2;i++){
     	vector<float> v;
     	output.push_back(v);
@@ -161,7 +161,7 @@ vector<vector<float>> max_pooling(vector<vector<float>> input){
 }
 
 // acts as a hidden layer in neural network by reducing the amount of data and taking relevant data by taking average of 2*2 sliding window
-vector<vector<float>> average_pooling(vector<vector<float>> input){
+vector<vector<float> > average_pooling(vector<vector<float> > input){
     if(input.size()%2==1){
     	vector<float> extra;
     for(int i=0;i<input.size();i++){
@@ -172,7 +172,7 @@ vector<vector<float>> average_pooling(vector<vector<float>> input){
         	input[i].push_back(0);
         }
     }
-    vector<vector<float>> output;
+    vector<vector<float> > output;
     for(int i=0;i<input.size()/2;i++){
     	vector<float> v;
     	output.push_back(v);
@@ -202,7 +202,7 @@ vector<float> sigmoid(vector<float> input){
      	}
     return output; 	
 }
-void display(vector<vector<float>> input){
+void display(vector<vector<float> > input){
 	for(int i=0;i<input.size();i++){
         for(int j=0;j<input[i].size();j++){
             
@@ -217,7 +217,7 @@ void disp(vector<float> input){
      }
      cout << endl;
 }
-void take_input(vector<vector<float>> input,string fil,string sizestr){
+void take_input(vector<vector<float> > input,string fil,string sizestr){
 	     ifstream file;
 	     file.open(fil);
 	     int size = stoi(sizestr);
@@ -228,15 +228,24 @@ void take_input(vector<vector<float>> input,string fil,string sizestr){
 	      		vector<float> v;
 	            input.push_back(v);
 	            }
-	            file>>x;
+	            file>> x;
 	            input[j].push_back(x);
 	      	}
 	    }
 }
 void split(vector<string> result,string s){
 	int i=0;
-	while(s[i]!="\0"){
-		
+  String temp = "";
+	while(i<s.size()){
+        if(s[i]!=" "){
+          temp=temp+s[i];
+          i++;
+        }
+        else{
+          result.push_back(temp);
+          temp="";
+          i++;
+        }		
 	}
 }
 int main(){
@@ -247,32 +256,32 @@ int main(){
           result = strtok(s," ");
           if(result[0]=="convolution"){
               
-              vector<vector<float>> input;
+              vector<vector<float> > input;
               take_input(input,result[1],result[2]);
-              vector<vector<float>> kernel;
+              vector<vector<float> > kernel;
               take_input(kernel,result[3],result[4]);
               display(convolution_withoutpadding(input,kernel));
           }
           else if(result[0]=="convolution_withpadding"){
-              vector<vector<float>> input;
+              vector<vector<float> > input;
               int padsize = stoi(result[1]);
               take_input(input,result[2],result[3]);
-              vector<vector<float>> kernel;
+              vector<vector<float> > kernel;
               take_input(kernel,result[4],result[5]);
               display(convolution_withpadding(padsize,input,kernel));
           }
           else if(result[0]=="convolution_matrixmult"){
-              vector<vector<float>> input;
+              vector<vector<float> > input;
               take_input(input,result[1],result[2]);
-              vector<vector<float>> kernel;
+              vector<vector<float> > kernel;
               take_input(kernel,result[3],result[4]);
               display(convolution_withoutpadding_matrixmult(input,kernel));
           }
           else if(result[0]=="convolution_withpadding_matrixmult"){
-              vector<vector<float>> input;
+              vector<vector<float> > input;
               int padsize = stoi(result[1]);
               take_input(input,result[2],result[3]);
-              vector<vector<float>> kernel;
+              vector<vector<float> > kernel;
               take_input(kernel,result[4],result[5]);
               display(convolution_withpadding_matrixmult(padsize,input,kernel));
           }
@@ -281,10 +290,10 @@ int main(){
             ifstream file;
 	        file.open(result[1]);
 	        string x;
-	        file>>x;
+	        file> >x;
             while (x!="\0"){
             	input.push_back(stoi(x));
-            	file>>x;
+            	file> >x;
             }
             disp(softmax(input));
           }
@@ -293,30 +302,30 @@ int main(){
             ifstream file;
 	        file.open(result[1]);
 	        string x;
-	        file>>x;
+	        file >> x;
             while (x!="\0"){
             	input.push_back(stoi(x));
-            	file>>x;
+            	file >> x;
             }
            disp(sigmoid(input));
           }
           else if(result[0]=="max_pooling"){
-            vector<vector<float>> input;
+            vector<vector<float> > input;
             take_input(input,result[1],result[2]);
             display(max_pooling(input));
           }
           else if(result[0]=="average_pooling"){
-          	vector<vector<float>> input;
+          	vector<vector<float> > input;
             take_input(input,result[1],result[2]);
             display(average_pooling(input));
           }
           else if(result[0]=="relu_activation"){
-              vector<vector<float>> inp;
+              vector<vector<float> > inp;
               take_input(inp,result[1],result[2]);
               display(relu_activation(inp));
           }
           else if(result[0]=="tanh_activation"){
-              vector<vector<float>> inp;
+              vector<vector<float> > inp;
               take_input(inp,result[1],result[2]);
               display(tanh_activation(inp));
           }
