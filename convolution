@@ -117,7 +117,7 @@ vector<vector<float>> convolution_withpadding_matrixmult(float padsize,vector<ve
       return convolution_withoutpadding_matrixmult(padding(padsize,input),kernel);
 }
 
-vector<vector<float>> relu_activation(vector<vector<float>> input){
+vector<vector<float>> relu_activation(vector<float> input){
     for(int i=0;i<input.size();i++){
      	for(int j=0;j<input[i].size();i++){
      		input[i][j]=max(0,input[i][j]);
@@ -200,7 +200,30 @@ vector<float> sigmoid(vector<float> input){
      	}
     return output; 	
 }
-
+void display(vector<vector<float>> input){
+	for(int i=0;i<size1;i++){
+        for(int j=0;j<size1;j++){
+            
+            cout<<input[j][i]<<" ";
+        }
+        cout<<endl;
+    }
+}
+void take_input(vector<vector<float> input, string fil,str sizestr){
+	     ifstream file;
+	     file.open(fil);
+	     int size = stoi(sizestr);
+       for(int i=0;i<size;i++){
+	      	for(int j=0;j<size;j++){
+	      		if(i==0){
+	      		vector<float> v;
+	            input.push_back(v);
+	            }
+	            file>>x;
+	            input[j].push_back(x);
+	      	}
+	    }
+}
 int main(){
     string s;
      do{
@@ -208,35 +231,11 @@ int main(){
           vector<string> result;
           split(result,s," ");
           if(result[0]=="convolution"){
-              ifstream file1;
-              file1.open(result[1]);
-              int size1 = stoi(result[2]);
+              
               vector<vector<float> input;
-              for(int i=0;i<size1;i++){
-              	for(int j=0;j<size1;j++){
-              		if(i==0){
-              		vector<float> v;
-                    input.push_back(v);
-                    }
-                    file1>>x;
-                    input[j].push_back(x);
-              	}
-              }
-              ifstream file2;
-              file2.open(result[3]);
-              int size2 = stoi(result[4]);
+              take_input(input,result[1],result[2]);
               vector<vector<float>> kernel;
-
-              for(int i=0;i<size2;i++){
-              	for(int j=0;j<size2;j++){
-              		if(i==0){
-              		vector<float> v;
-                    kernel.push_back(v);
-                    }
-                    file2>>x;
-                    kernel[j].push_back(x);
-              	}
-              }
+              take_input(kernel,result[3],result[4]);
               display(convolution_withoutpadding(input,kernel));
           }
           else if(result[0]=="convolution_withpadding"){
@@ -261,13 +260,15 @@ int main(){
           	
           }
           else if(result[0]=="relu_activation"){
-
+              vector<vector<float> input;
+              take_input(input,result[1],result[2]);
+              display(relu_activation(input));
           }
           else if(result[0]=="tanh_activation"){
-
+              vector<vector<float> input;
+              take_input(input,result[1],result[2]);
+              display(tanh_activation(input));
           }
-          
-
      }
      while(s!="\0");
     
