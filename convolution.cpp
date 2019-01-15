@@ -1,40 +1,58 @@
-// #include <iostream>
-// #include <climits>
-// #include <algorithm>
-// #include <vector>
-// #include <cstring>
-// #include <fstream>
-#include <bits/stdc++.h>
+#include <iostream>
+#include <climits>
+#include <algorithm>
+#include <vector>
+#include <cstring>
+#include <fstream>
+#include <cmath>
+// #include <bits/stdc++.h>
 using namespace std;
+void display(vector<vector<float> > input){
+  for(int i=0;i<input.size();i++){
+        for(int j=0;j<input[i].size();j++){
+           cout<<input[i][j]<< " ";
+        }
+        cout << endl;
+    }
+}
 vector<vector<float> > processed_input(vector<vector<float> > input,int kernel_size){
 
     vector<vector<float> > output;
     for(int i=0;i<kernel_size;i++){
-        for(int j=1;j<=(input.size()-kernel_size);j++){
-            for(int k=1;k<=(input.size()-kernel_size);k++){
+        int y=0;
+        for(int j=0;j<=(input.size()-kernel_size);j++){
+            for(int k=0;k<=(input.size()-kernel_size);k++){
                 if(i==0){
                     vector<float> v;
                     output.push_back(v);
                 }
                 for(int x=0;x<kernel_size;x++){
-                    output[j*k-1].push_back(input[i+j-1][k+x-1]);
+                    // cout << 
+                    output[y].push_back(input[i+j][k+x]);
                 }
+                y++;
             }
         }
     }
+    //display(output);
     return output;
 
 } 
 vector<vector<float> > processed_kernel(vector<vector<float> > kernel){
 
     vector<vector<float> > output;
+    int k=0;
     for(int i=0;i<kernel.size();i++){
-        vector<float> v;
-        output.push_back(v);
-        for(int j=0;j<kernel[i].size();i++){
-            output[i*3+j].push_back(kernel[i][j]);
+        
+        for(int j=0;j<kernel[i].size();j++){
+            vector<float> v;
+            output.push_back(v);
+            //cout << kernel[i][j]<< " ";
+            output[k].push_back(kernel[i][j]);
+            k++;
         }
      }
+     //display(output);
     return output;
 }
 
@@ -43,7 +61,7 @@ vector<vector<float> > matrix_mult(vector<vector<float> > input,vector<vector<fl
     float sum=0;
     for(int i=0;i<input.size();i++){
     	vector<float> v;
-		output.push_back(v);
+		  output.push_back(v)
         for(int j=0;j<kernel[0].size();j++){
             sum=0;
             for(int k=0;k<kernel.size();k++){
@@ -88,7 +106,7 @@ vector<vector<float> > convolution_withoutpadding(vector<vector<float> > input,v
 }
 
 vector<vector<float> > convolution_withoutpadding_matrixmult(vector<vector<float> > input,vector<vector<float> > kernel){
-
+      //display(processed_kernel(kernel));
       return inverse_input(matrix_mult(processed_input(input,kernel.size()),processed_kernel(kernel)));
 }
 
@@ -118,8 +136,8 @@ vector<vector<float> > convolution_withpadding_matrixmult(int padsize,vector<vec
       return convolution_withoutpadding_matrixmult(padding(padsize,input),kernel);
 }
 
-vector<vector<float> > relu_activation(vector<vector<float>> input){
-	vector<vector<float>> output;
+vector<vector<float> > relu_activation(vector<vector<float> > input){
+	vector<vector<float> > output;
               cout<<12345<<endl;
     for(int i=0;i<input.size();i++){
     	vector<float> v;
@@ -132,8 +150,8 @@ vector<vector<float> > relu_activation(vector<vector<float>> input){
     return output;
 }
 
-vector<vector<float>> tanh_activation(vector<vector<float> > input){
-    vector<vector<float>> output;
+vector<vector<float> > tanh_activation(vector<vector<float> > input){
+    vector<vector<float> > output;
     for(int i=0;i<input.size();i++){
     	vector<float> v;
     	output.push_back(v);
@@ -209,13 +227,7 @@ vector<float> sigmoid(vector<float> input){
      	}
     return output; 	
 }
-void display(vector<vector<float> > input){
-	for(int i=0;i<input.size();i++){
-        for(int j=0;j<input[i].size();j++){
-           cout<<input[j][i]<<endl;
-        }
-    }
-}
+
 void disp(vector<float> input){
   for(int i=0;i<input.size();i++){        
            cout<<input[i]<<endl;
@@ -237,10 +249,12 @@ void take_input(vector<vector<float> > &input,string fil,string sizestr){
 	      	}
 	    }
 	    file.close();
+      //display(input);
 }
 int main(int argc,char* argv[]){
-            cout<<argv[1]<<" "<<argv[2]<<" "<<argv[3]<<endl;
+            //cout<<argv[1]<<" "<<argv[2]<<" "<<argv[3]<<argv[4]<< argv[5]<<endl;
           if(!strcmp(argv[1],"convolution")){
+
               vector<vector<float> > input;
               take_input(input,argv[2],argv[3]);
               vector<vector<float> > kernel;
@@ -260,6 +274,10 @@ int main(int argc,char* argv[]){
               take_input(input,argv[2],argv[3]);
               vector<vector<float> > kernel;
               take_input(kernel,argv[4],argv[5]);
+
+
+              
+
               display(convolution_withoutpadding_matrixmult(input,kernel));
           }
           else if(!strcmp(argv[1],"convolution_withpadding_matrixmult")){
@@ -306,12 +324,12 @@ int main(int argc,char* argv[]){
           }
           else if(!strcmp(argv[1],"relu_activation")){
               vector<vector<float> > inp;
-              cout<<argv[1]<<" "<<argv[2]<<" "<<argv[3]<<endl;
+              //cout<<argv[1]<<" "<<argv[2]<<" "<<argv[3]<<endl;
               take_input(inp,argv[2],argv[3]);
-              cout<<argv[1]<<" "<<argv[2]<<" "<<argv[3]<<endl;
+              //cout<<argv[1]<<" "<<argv[2]<<" "<<argv[3]<<endl;
               display(relu_activation(inp));
           }
-          else if(strcmp(argv[1],"tanh_activation")){
+          else if(!strcmp(argv[1],"tanh_activation")){
               vector<vector<float> > inp;
               take_input(inp,argv[2],argv[3]);
               display(tanh_activation(inp));
