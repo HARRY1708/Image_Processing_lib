@@ -139,7 +139,7 @@ vector<vector<float> > convolution_withpadding_matrixmult(int padsize,vector<vec
 
 vector<vector<float> > relu_activation(vector<vector<float> > input){
 	vector<vector<float> > output;
-              cout<<12345<<endl;
+              //cout<<12345<<endl;
     for(int i=0;i<input.size();i++){
     	vector<float> v;
     	output.push_back(v);
@@ -234,22 +234,38 @@ void disp(vector<float> input){
            cout<<input[i]<<endl;
      }
 }
-void take_input(vector<vector<float> > &input,string fil,string sizestr){
-	     fstream file;
-	     file.open(fil);
-	     int size = stoi(sizestr);
-	     float x;
-       for(int i=0;i<size;i++){
-	      	for(int j=0;j<size;j++){
-	      		if(i==0){
-	      		vector<float> v;
-	            input.push_back(v);
-	            }
-	            file>> x;
-	            input[j].push_back(x);
-	      	}
-	    }
-	    file.close();
+bool take_input(vector<vector<float> > &input,string fil,string sizestr){
+	     
+           fstream file;
+    	     file.open(fil);
+           if(file){
+          	     int size = stoi(sizestr);
+          	     float x;
+                 for(int i=0;i<size;i++){
+          	      	for(int j=0;j<size;j++){
+          	      		if(i==0){
+          	      		     vector<float> v;
+          	               input.push_back(v);
+          	            }
+          	            file>> x;
+                        if(file){
+                          input[j].push_back(x);
+
+                        }
+                        else{
+                          cout << "Given File with file name "+fil+" doesnt have size "+sizestr<<endl;
+                          return false;
+                        }
+          	            
+          	      	}
+          	    }
+                return true;
+          	    file.close();
+            }
+            else{
+              cout << "Given File with file name "+fil+" not found"<< endl;
+              return false;
+            }
       //display(input);
 }
 int main(int argc,char* argv[]){
@@ -257,83 +273,107 @@ int main(int argc,char* argv[]){
           if(!strcmp(argv[1],"convolution")){
 
               vector<vector<float> > input;
-              take_input(input,argv[2],argv[3]);
               vector<vector<float> > kernel;
-              take_input(kernel,argv[4],argv[5]);
-              display(convolution_withoutpadding(input,kernel));
+              if(take_input(kernel,argv[4],argv[5])&&take_input(input,argv[2],argv[3])){
+                  display(convolution_withoutpadding(input,kernel));
+              }
           }
           else if(!strcmp(argv[1],"convolution_withpadding")){
               vector<vector<float> > input;
               int padsize = stoi(argv[2]);
-              take_input(input,argv[3],argv[4]);
               vector<vector<float> > kernel;
-              take_input(kernel,argv[5],argv[6]);
-              display(convolution_withpadding(padsize,input,kernel));
+              if(take_input(input,argv[3],argv[4])&&take_input(kernel,argv[5],argv[6])){
+                   display(convolution_withpadding(padsize,input,kernel));
+              }
           }
           else if(!strcmp(argv[1],"convolution_matrixmult")){
-              vector<vector<float> > input;
-              take_input(input,argv[2],argv[3]);
               vector<vector<float> > kernel;
-              take_input(kernel,argv[4],argv[5]);
-
-
-              
-
-              display(convolution_withoutpadding_matrixmult(input,kernel));
+              vector<vector<float> > input;
+              if(take_input(input,argv[2],argv[3])&&take_input(kernel,argv[4],argv[5])){
+                  display(convolution_withoutpadding_matrixmult(input,kernel));
+              }
           }
           else if(!strcmp(argv[1],"convolution_withpadding_matrixmult")){
-              vector<vector<float> > input;
+             vector<vector<float> > input;
               int padsize = stoi(argv[2]);
-              take_input(input,argv[3],argv[4]);
               vector<vector<float> > kernel;
-              take_input(kernel,argv[5],argv[6]);
-              display(convolution_withpadding_matrixmult(padsize,input,kernel));
+              if(take_input(input,argv[3],argv[4])&&take_input(kernel,argv[5],argv[6])){
+                     display(convolution_withpadding_matrixmult(padsize,input,kernel));
+              }
           }
           else if(!strcmp(argv[1],"softmax")){
             vector<float> input;
             ifstream file;
 	        file.open(argv[2]);
-	        string x;
-	        file>>x;
-            while (x!="\0"){
-            	input.push_back(stoi(x));
-            	file>>x;
-            }
-            disp(softmax(input));
+            if(file){
+          	        string x;
+          	        file>>x;
+                      while (x!="\0"){
+                      	input.push_back(stoi(x));
+                      	file>>x;
+                      }
+                      disp(softmax(input));
+                }
+            else{
+                cout << "Given File with file name "+argv[2]+" not found"<< endl;
+             }
           }
           else if(!strcmp(argv[1],"sigmoid")){
           	 vector<float> input;
             ifstream file;
 	        file.open(argv[2]);
-	        string x;
-	        file >> x;
-            while (x!="\0"){
-            	input.push_back(stoi(x));
-            	file >> x;
+	          if(file){
+                    string x;
+        	          file >> x;
+                    while (x!="\0"){
+                    	input.push_back(stoi(x));
+                    	file >> x;
+                    }
+                    disp(sigmoid(input));
+                  }
+            else{
+                cout << "Given File with file name "+argv[2]+" not found"<< endl;
+
             }
-           disp(sigmoid(input));
           }
           else if(!strcmp(argv[1],"max_pooling")){
             vector<vector<float> > input;
-            take_input(input,argv[2],argv[3]);
-            display(max_pooling(input));
+            if(take_input(input,argv[2],argv[3]))
+            {
+                display(max_pooling(input));
+            }
           }
           else if(!strcmp(argv[1],"average_pooling")){
           	vector<vector<float> > input;
-            take_input(input,argv[2],argv[3]);
-            display(average_pooling(input));
+            if(take_input(input,argv[2],argv[3])){
+                display(average_pooling(input));
+            }
           }
           else if(!strcmp(argv[1],"relu_activation")){
               vector<vector<float> > inp;
-              //cout<<argv[1]<<" "<<argv[2]<<" "<<argv[3]<<endl;
-              take_input(inp,argv[2],argv[3]);
-              //cout<<argv[1]<<" "<<argv[2]<<" "<<argv[3]<<endl;
-              display(relu_activation(inp));
+              if(take_input(inp,argv[2],argv[3]))
+              {
+                display(relu_activation(inp));
+              }
           }
           else if(!strcmp(argv[1],"tanh_activation")){
               vector<vector<float> > inp;
-              take_input(inp,argv[2],argv[3]);
-              display(tanh_activation(inp));
+              if(take_input(inp,argv[2],argv[3])){
+                  display(tanh_activation(inp));
+               }
+          }
+          else{
+            cout << "Input type is not a given function. Please type from one of the functions from below" << endl;
+            cout << "convolution" << endl;
+            cout << "convolution_withpadding" << endl;
+            cout << "convolution_matrixmult" << endl;
+            cout << "convolution_withpadding_matrixmult" << endl;
+            cout << "softmax" << endl;
+            cout << "sigmoid" << endl;
+            cout << "max_pooling" << endl;
+            cout << "average_pooling" << endl;
+            cout << "relu_activation" << endl;
+            cout << "tanh_activation" << endl;
           }
     return 0;
 }
