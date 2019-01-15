@@ -61,7 +61,7 @@ vector<vector<float> > matrix_mult(vector<vector<float> > input,vector<vector<fl
     float sum=0;
     for(int i=0;i<input.size();i++){
     	vector<float> v;
-		  output.push_back(v)
+		  output.push_back(v);
         for(int j=0;j<kernel[0].size();j++){
             sum=0;
             for(int k=0;k<kernel.size();k++){
@@ -76,12 +76,13 @@ vector<vector<float> > matrix_mult(vector<vector<float> > input,vector<vector<fl
 vector<vector<float> > inverse_input(vector<vector<float> > input){
     vector<vector<float> > output;
     int i= (int)sqrt(input.size());
-
-    for(int k=1;k<=i;k++){
+    int x=0;
+    for(int k=0;k<i;k++){
         vector<float> v;
         output.push_back(v);
-        for(int j=1;j<=i;j++){
-            output[k-1].push_back(input[k*j-1][0]);
+        for(int j=0;j<i;j++){
+            output[k].push_back(input[x][0]);
+            x++;
         }
     }
     return output;
