@@ -143,7 +143,7 @@ vector<vector<float> > relu_activation(vector<vector<float> > input){
     for(int i=0;i<input.size();i++){
     	vector<float> v;
     	output.push_back(v);
-    	 cout<<12345<<endl;
+    	 
      	for(int j=0;j<input[i].size();j++){
      		output[i].push_back(max(input[i][j],(float)0));
      	}
