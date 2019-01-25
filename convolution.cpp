@@ -6,6 +6,8 @@
 #include <fstream>
 #include <cmath>
 #include "imagproc.h"
+#include "convolution_mkl.h"
+//#include "convolution_openblas.h"
 // #include <bits/stdc++.h>
 using namespace std;
 
