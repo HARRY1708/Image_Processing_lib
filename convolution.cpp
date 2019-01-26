@@ -1,12 +1,12 @@
 #include <iostream>
-#include <climits>
+// #include <climits>
 #include <algorithm>
 #include <vector>
 #include <cstring>
 #include <fstream>
 #include <cmath>
 #include "imagproc.h"
-#include "convolution_mkl.h"
+// #include "convolution_mkl.h"
 //#include "convolution_openblas.h"
 // #include <bits/stdc++.h>
 using namespace std;
@@ -41,26 +41,26 @@ int main(int argc,char* argv[]){
           else if(!strcmp(argv[1],"convolution_matrixmult")){
               vector<vector<float> > kernel;
               vector<vector<float> > input;
-              if(argc!=6)
+              if(argc!=7)
               {
-              	cout<<"Error: convolution_withpadding requires 4 inputs namely input_filename input_rowsize output_filename output_rowsize"<<endl;;
+              	cout<<"Error: convolution_matrixmult requires 4 inputs namely input_filename input_rowsize output_filename output_rowsize"<<endl;;
               	return 0;
               }
               if(take_input(input,argv[2],argv[3])&&take_input(kernel,argv[4],argv[5]))
-                  display(convolution_withoutpadding_matrixmult(input,kernel));
+                  display(convolution_withoutpadding_matrixmult(input,kernel,argv[6]));
               
           }
           else if(!strcmp(argv[1],"convolution_withpadding_matrixmult")){
              vector<vector<float> > input;
               int padsize = stoi(argv[2]);
               vector<vector<float> > kernel;
-              if(argc!=7)
+              if(argc!=8)
               {
-              	cout<<"Error: convolution_withpadding requires 5 inputs namely padsize input_filename input_rowsize output_filename output_rowsize"<<endl;;
+              	cout<<"Error: convolution_withpadding_matrixmult requires 5 inputs namely padsize input_filename input_rowsize output_filename output_rowsize"<<endl;;
               	return 0;
               }
               if(take_input(input,argv[3],argv[4])&&take_input(kernel,argv[5],argv[6]))
-                     display(convolution_withpadding_matrixmult(padsize,input,kernel));
+                     display(convolution_withpadding_matrixmult(padsize,input,kernel,argv[7]));
               
           }
           else if(!strcmp(argv[1],"softmax")){

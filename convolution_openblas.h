@@ -1,67 +1,46 @@
 #include <iostream>
-
+#include <vector>
 #include "cblas.h"
-#define min(x,y) (((x) < (y)) ? (x) : (y))
 using namespace std;
-double* matrix_mult_openblas(double* A,double* B,int m,int k,int n){
+#ifndef CONVOLUTION_OPENBLAS_H_INCLUDE
+#define CONVOLUTION_OPENBLAS_H_INCLUDE
+vector<vector<float>> matrix_mult_openblas(vector<vector<float>> input,vector<vector<float>> kernel){
     
     int i, j;
     double alpha, beta;
-
-    //cout<< "This example computes real matrix C=alpha*A*B+beta*C using "<<
-      //      " Intel(R) MKL function dgemm, where A, B, and  C are matrices and "<<
-        //    " alpha and beta are double precision scalars"<<endl;
-
-    //cout<<" Initializing data for matrix multiplication C=A*B for matrix "<<
-      //      " A(%ix%i) and matrix B(%ix%i)\n\n";
     alpha = 1.0; beta = 0.0;
-
-    //printf (" Allocating memory for matrices aligned on 64-byte boundary for better \n"
-      //      " performance \n\n");
-    C = (double *)mkl_malloc( m*n*sizeof( double ), 64 );
-    if (A == NULL || B == NULL || C == NULL) {
-     // printf( "\n ERROR: Can't allocate memory for matrices. Aborting... \n\n");
-      mkl_free(A);
-      mkl_free(B);
-      mkl_free(C);
-      return C;
+    double * A = new double(input.size()*input[0].size());
+    int k=0;
+    for(int i =0;i<input.size();i++){
+      for(int j=0;j<input[0].size();j++){
+         A[k]=input[i][j];
+         k++;
+      }
     }
-
-    //printf (" Intializing matrix data \n\n");
+    double * B= new double(kernel.size()*kernel[0].size());
+     k=0;
+    for(int i =0;i<kernel.size();i++){
+      for(int j=0;j<kernel[0].size();j++){
+         B[k]=kernel[i][j];
+         k++;
+      }
+    }
+    double * C = new double(input.size()*kernel[0].size());
    
-
-    for (i = 0; i < (m*n); i++) {
+    //printf (" Intializing matrix data \n\n")
+    for (i = 0; i < input.size()*kernel[0].size(); i++) {
         C[i] = 0.0;
     }
-
    // printf (" Computing matrix product using Intel(R) MKL dgemm function via CBLAS interface \n\n");
-    cblas_dgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans, m, n, k, alpha, A, k, B, n, beta, C, n);
-    //printf ("\n Computations completed.\n\n");
-
-    //printf (" Top left corner of matrix A: \n");
-    // for (i=0; i<min(m,6); i++) {
-    //   for (j=0; j<min(k,6); j++) {
-    //    cout<< A[j+i*k];
-    //   }
-    // cout<<endl;
-    // }
-
-   // printf ("\n Top left corner of matrix B: \n");
-    // for (i=0; i<min(k,6); i++) {
-    //   for (j=0; j<min(n,6); j++) {
-    //     cout<<B[j+i*n];
-    //   }
-    //   cout<<endl;
-    //}
-    
-    //printf ("\n Top left corner of matrix C: \n");
-    for (i=0; i<m; i++) {
-      for (j=0; j<n; j++) {
-        cout<< C[j+i*n];
+    cblas_dgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans, input.size(), kernel[0].size(), input[0].size(), alpha, A,input[0].size() , B, kernel[0].size(), beta, C, kernel[0].size());
+    vector<vector<float>> output;
+    for (i=0; i<input.size(); i++) {
+           vector<float> v;
+           output.push_back(v);
+      for (j=0; j<kernel[0].size(); j++) {
+         output[i].push_back(C[j+i*kernel[0].size()]);
       }
-      cout<<endl;
     }
-
-   // printf ("\n Deallocating memory \n\n");
-    return C;
+    return output;
 }
+#endif

@@ -1,11 +1,12 @@
 #include <iostream>
-#include <climits>
+// #include <climits>
 #include <algorithm>
-#include <vector>
 #include <cstring>
 #include <fstream>
 #include <cmath>
-
+#include "convolution_mkl.h"
+#include "convolution_openblas.h"
+#include "pthreading.h"
 #ifndef IMAGPROC_H_INCLUDE
 #define IMAGPROC_H_INCLUDE
 using namespace std;
@@ -108,9 +109,14 @@ vector<vector<float> > convolution_withoutpadding(vector<vector<float> > input,v
   return output;
 }
 
-vector<vector<float> > convolution_withoutpadding_matrixmult(vector<vector<float> > input,vector<vector<float> > kernel){
+vector<vector<float> > convolution_withoutpadding_matrixmult(vector<vector<float> > input,vector<vector<float> > kernel,string type){
       //display(processed_kernel(kernel));
-      return inverse_input(matrix_mult(processed_input(input,kernel.size()),processed_kernel(kernel)));
+      if(type=="mkl")
+      return inverse_input(matrix_mult_mkl(processed_input(input,kernel.size()),processed_kernel(kernel)));
+      else if (type =="openblas")
+      return inverse_input(matrix_mult_openblas(processed_input(input,kernel.size()),processed_kernel(kernel)));
+      else if(type == "pthread")
+      return inverse_input(matrix_mult_pthread(processed_input(input,kernel.size()),processed_kernel(kernel)));  
 }
 
 vector<vector<float> > padding(int padsize,vector<vector<float> > input){
@@ -134,9 +140,9 @@ vector<vector<float> > convolution_withpadding(int padsize,vector<vector<float> 
       return convolution_withoutpadding(padding(padsize,input),kernel);
 }
 
-vector<vector<float> > convolution_withpadding_matrixmult(int padsize,vector<vector<float> > input,vector<vector<float> > kernel){
+vector<vector<float> > convolution_withpadding_matrixmult(int padsize,vector<vector<float> > input,vector<vector<float> > kernel,string type){
 
-      return convolution_withoutpadding_matrixmult(padding(padsize,input),kernel);
+      return convolution_withoutpadding_matrixmult(padding(padsize,input),kernel,type);
 }
 
 vector<vector<float> > relu_activation(vector<vector<float> > input){
