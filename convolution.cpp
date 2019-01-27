@@ -5,6 +5,7 @@
 #include <cstring>
 #include <fstream>
 #include <cmath>
+#include <ctime>
 #include "imagproc.h"
 // #include "convolution_mkl.h"
 //#include "convolution_openblas.h"
@@ -154,6 +155,63 @@ int main(int argc,char* argv[]){
                   display(tanh_activation(inp));
                }
           }
+          else if(!strcmp(argv[1],"plot")){
+            vector<vector<float> > matA(1,vector<float>(1));
+            vector<vector<float> > matB(1,vector<float>(1));
+            fstream pthread;
+            pthread.open("pthread.dat");
+            fstream mkl;
+            mkl.open("mkl.dat");
+            fstream naive;
+             naive.open("naive.dat");
+             clock_t t;
+           for(int loop=2;loop<100;loop++){    
+                  matA.resize(loop);
+                  matB.resize(loop);
+                  for(int i=0;i<loop;i++){
+                    matA[i].resize(loop);
+                    matB[i].resize(loop);
+                    for(int j=0;j<loop;j++){
+                        matA[i][j]=rand()%10;
+                        matB[i][j]=rand()%10;
+                    }
+                  }
+
+                  
+                  if(pthread)
+                   {
+                   
+                   t=clock();
+                   matrix_mult_pthread(matA,matB);
+                   double tim=(double)(clock()-t);
+                   pthread<<loop<<" "<< tim<<endl;
+                   } 
+                  if(mkl)
+                   {
+                   t=clock();
+                   matrix_mult_mkl(matA,matB);
+                   double tim=(double)(clock()-t);
+                   mkl<<loop<<" "<< tim<<endl;
+                   }
+                   // fstream openblas;
+                   // openblas.open("openblas.dat");
+                  // if(openblas)
+                  //  {
+                  //  clock_t t;
+                  //  t=clock();
+                  //  matrix_mult_openblas(matA,matB);
+                  //  double tim=(double)(clock()-t)/CLOCKS_PER_SEC*10000;
+                  //  openblas<<loop<<" "<< tim<<endl;
+                  //  }
+                  if(naive)
+                   {
+                   t=clock();
+                   matrix_mult(matA,matB);
+                   double tim=(double)(clock()-t);
+                   naive<<loop<<" "<< tim<<endl;
+                   }
+          }
+        }
           else{
             cout << "Input type is not a given function. Please type from one of the functions from below" << endl;
             cout << "convolution input_filename input_rowsize output_filename output_rowsize" << endl;

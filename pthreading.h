@@ -49,8 +49,6 @@ vector<vector<float> > matrix_mult_pthread(vector<vector<float> > A,vector<vecto
         vector<vector<float> > matrix_ans(A.size(),vector<float> (B[0].size()));
         ac.Answer=matrix_ans;
         pthread_t threads[A.size()];
-        // clock_t t;
-        // t=clock();
         loop_size=A.size();
         for (int i = 0; i < 4; i++) { 
             pthread_create(&threads[i], NULL, multi, (void*)(&ac));
@@ -59,10 +57,8 @@ vector<vector<float> > matrix_mult_pthread(vector<vector<float> > A,vector<vecto
         
         for (int i = 0; i < 4; i++)  
         pthread_join(threads[i], NULL);
-        // double tim=(double)(clock()-t)/CLOCKS_PER_SEC*10000;
-        // cout << "the time required is "<< tim<< endl;
         vector<vector<float> > output= (ac.Answer);
-
+        cou=0;
         //display(output);
         return output;  
 }

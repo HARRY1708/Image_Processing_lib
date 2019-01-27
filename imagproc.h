@@ -62,6 +62,7 @@ vector<vector<float>> processed_kernel(vector<vector<float>> kernel){
 vector<vector<float>> matrix_mult(vector<vector<float>> input,vector<vector<float>> kernel){
     vector<vector<float>> output;
     float sum=0;
+    
     for(int i=0;i<input.size();i++){
     	vector<float> v;
 		  output.push_back(v);

@@ -1,6 +1,6 @@
 #include <iostream>
 #include <vector>
-#include "cblas.h"
+#include "mkl.h"
 using namespace std;
 #ifndef CONVOLUTION_OPENBLAS_H_INCLUDE
 #define CONVOLUTION_OPENBLAS_H_INCLUDE
@@ -32,7 +32,7 @@ vector<vector<float>> matrix_mult_openblas(vector<vector<float>> input,vector<ve
         C[i] = 0.0;
     }
    // printf (" Computing matrix product using Intel(R) MKL dgemm function via CBLAS interface \n\n");
-    cblas_dgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans, input.size(), kernel[0].size(), input[0].size(), alpha, A,input[0].size() , B, kernel[0].size(), beta, C, kernel[0].size());
+  cblas_dgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans, input.size(), kernel[0].size(), input[0].size(), alpha, A,input[0].size() , B, kernel[0].size(), beta, C, kernel[0].size());
     vector<vector<float>> output;
     for (i=0; i<input.size(); i++) {
            vector<float> v;
